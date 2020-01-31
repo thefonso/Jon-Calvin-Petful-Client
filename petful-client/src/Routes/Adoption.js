@@ -7,8 +7,9 @@ export default class Adoption extends React.Component {
     this.state = {
       isLoaded: false,
       error: null,
-      dogs: [],
-      cats: []
+      dog: [],
+      cat: [],
+      person: []
     };
   }
   componentDidMount() {
@@ -20,43 +21,83 @@ export default class Adoption extends React.Component {
     fetch("http://localhost:8080/api/dog")
       .then(res => res.json())
       .then(
-        (result) => {
+        result => {
           console.log(result);
           this.setState({
             isLoaded: true,
-            dogs: result
-          })
+            dog: result
+          });
         },
-        (error) => {
+        error => {
           this.setState({
             isLoaded: true,
             error
-          })
+          });
         }
-      )
+      );
   };
 
   getCats = () => {
     fetch("http://localhost:8080/api/cat")
       .then(res => res.json())
       .then(
-        (result) => {
+        result => {
           this.setState({
             isLoaded: true,
-            cats: result
-          })
+            cat: result
+          });
         },
-        (error) => {
+        error => {
           this.setState({
             isLoaded: true,
             error
-          })
+          });
         }
-      )
+      );
+  };
+
+  deleteCats = () => {
+    fetch("http://localhost:8080/api/cat/remove", { method: "DELETE" })
+      .then(res => res.json())
+      .then(
+        result => {
+          this.setState({
+            isLoaded: true,
+            cat: result
+          });
+        },
+        error => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      );
+  };
+
+  deleteDogs = () => {
+    fetch("http://localhost:8080/api/dog/remove", { method: "DELETE" })
+      .then(res => res.json())
+      .then(
+        result => {
+          this.setState({
+            isLoaded: true,
+            dog: result
+          });
+        },
+        error => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      );
   };
 
   render() {
-    const { error, isLoaded, cats, dogs } = this.state;
+    // const dog = this.state.dog;
+    // const cat = this.state.cat;
+    const { error, isLoaded, cat, dog } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -67,33 +108,44 @@ export default class Adoption extends React.Component {
           <h1>Adoption Process</h1>
           <div className="dog">
             <h2>Dogs</h2>
-            {this.state.dogs.map(dog => {
-              return (<div>
-              <p>{dog.name}</p>
-              <p>{dog.breed}</p>
-              <p>{dog.age}</p>
-              </div>
-              )
-            })}
-
+            {/* when a pet is adopted, remove/delete that index and rerender */}
+            <div>
+              <img src={dog.imageURL} alt={dog.imageDescription}></img>
+              <p> Name: </p>
+              {dog.name} <br />
+              <p> Breed: </p>
+              {dog.breed} <br />
+              <p> Age: </p>
+              {dog.age} <br />
+              <p> Sex: </p>
+              {dog.sex} <br />
+              <p> Description: </p>
+              {dog.description} <br />
+              <p> Story: </p>
+              {dog.story}
+            </div>
+            <button onClick={this.deleteDogs}>Adopt Dog</button>
           </div>
 
           <div className="cat">
             <h2>Cats</h2>
-            {this.state.cats.map(cat => {
-              return (<div>
-              <p>{cat.name}</p>
-              <p>{cat.breed}</p>
-              <p>{cat.age}</p>
-              </div>
-              )
-            })}
-        </div>
-
-          <div>
-            <h3>Place in line</h3>
-            queue info goes here
-        </div>
+            <div>
+              <img src={cat.imageURL} alt={cat.imageDescription}></img>
+              <p> Name: </p>
+              {cat.name} <br />
+              <p> Breed: </p>
+              {cat.breed} <br />
+              <p> Age: </p>
+              {cat.age} <br />
+              <p> Sex: </p>
+              {cat.sex} <br />
+              <p> Description: </p>
+              {cat.description} <br />
+              <p> Story: </p>
+              {cat.story}
+              <button onClick={this.deleteCats}>Adopt Cat</button>
+            </div>
+          </div>
         </div>
       );
     }

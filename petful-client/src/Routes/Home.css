@@ -1,3 +1,8 @@
+* {
+  background-color: black;
+  color: white;
+}
+
 header {
   text-align: center;
 }
@@ -7,6 +12,15 @@ header {
   text-align: center;
   margin: 0 auto 50px;
   padding: 0 20px 0;
+}
+
+.queue {
+  text-align: center;
+}
+
+.home-background {
+  height: 100%;
+  width: 100%;
 }
 
 .adopt-button {
