@@ -17,13 +17,14 @@ export default class Adoption extends React.Component {
   }
 
   getDogs = () => {
-    fetch("http://localhost:8000/dogs")
+    fetch("http://localhost:8080/api/dog")
       .then(res => res.json())
       .then(
         (result) => {
+          console.log(result);
           this.setState({
             isLoaded: true,
-            dogs: result.dogs
+            dogs: result
           })
         },
         (error) => {
@@ -36,13 +37,13 @@ export default class Adoption extends React.Component {
   };
 
   getCats = () => {
-    fetch("http://localhost:8000/cats")
+    fetch("http://localhost:8080/api/cat")
       .then(res => res.json())
       .then(
         (result) => {
           this.setState({
             isLoaded: true,
-            dogs: result.dogs
+            cats: result
           })
         },
         (error) => {
@@ -66,12 +67,27 @@ export default class Adoption extends React.Component {
           <h1>Adoption Process</h1>
           <div className="dog">
             <h2>Dogs</h2>
-            dog info here
-        </div>
+            {this.state.dogs.map(dog => {
+              return (<div>
+              <p>{dog.name}</p>
+              <p>{dog.breed}</p>
+              <p>{dog.age}</p>
+              </div>
+              )
+            })}
+
+          </div>
 
           <div className="cat">
             <h2>Cats</h2>
-            cat info here
+            {this.state.cats.map(cat => {
+              return (<div>
+              <p>{cat.name}</p>
+              <p>{cat.breed}</p>
+              <p>{cat.age}</p>
+              </div>
+              )
+            })}
         </div>
 
           <div>
