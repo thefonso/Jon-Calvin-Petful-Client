@@ -86,9 +86,9 @@ class Home extends React.Component {
           adopt one and wait in line until it is your turn again to adopt.
         </p>
         {/* The site has a description of the adoption process */}
-        <div className="queue">
+        <div className="home-queue">
           <div className="person">
-            <div className="queue">
+            <div className="home-queue">
               <h3>Next in line</h3>
               {this.Loading()}
             </div>

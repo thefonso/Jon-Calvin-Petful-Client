@@ -171,6 +171,9 @@ export default class Adoption extends React.Component {
     return (
       <div className="Adoption">
         <h1>Adoption Process</h1>
+        <Link type="button" className="home-button" to="/">
+          <h2>Cancel</h2>
+        </Link>
         <div className="dog">
           <h2>Dogs</h2>
           {/* when a pet is adopted, remove/delete that index and rerender */}
@@ -190,7 +193,7 @@ export default class Adoption extends React.Component {
             {dog.story}
           </div>
           <Link className="adopt-Pet" onClick={this.deleteDog} to="/">
-            <button>Adopt Dog</button>
+            <button>Adopt this Dog!</button>
           </Link>
         </div>
 
@@ -210,13 +213,15 @@ export default class Adoption extends React.Component {
             {cat.description} <br />
             <p> Story: </p>
             {cat.story}
+            <br></br>
+            <br></br>
             <Link className="adopt-Pet" onClick={this.deleteCat} to="/">
-              <button>Adopt Cat</button>
+              <button>Adopt this Cat!</button>
             </Link>
           </div>
         </div>
         <div className="queue">
-          <h3>Place in line</h3>
+          <h3 className="waitingLine">People waiting in line</h3>
           {this.Loading()}
         </div>
       </div>
