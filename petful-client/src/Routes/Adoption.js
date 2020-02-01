@@ -186,6 +186,7 @@ export default class Adoption extends React.Component {
   render() {
     const dog = this.state.dog;
     const cat = this.state.cat;
+   
    // let adoptedPets = this.state.adoptedDogs.name;
     //console.log('adopted pets' , adoptedPets)
     
@@ -195,7 +196,7 @@ export default class Adoption extends React.Component {
     // } else if (!isLoaded) {
     //   return <div>Loading...</div>;
     // } else {
-
+  
     return (
       <div className="Adoption">
         <h1>Adoption Process</h1>
@@ -222,7 +223,7 @@ export default class Adoption extends React.Component {
           </div>
           <Link className="adopt-Pet" onClick={this.deleteDog} to="/">
             <button>Adopt this Dog!</button>
-            {console.log('adopted Dogs:' , this.state.adoptedDogs)}
+            {console.log('adopted Dogs:' , this.state.adoptedDogs.name)}
           </Link>
         </div>
 
@@ -246,7 +247,7 @@ export default class Adoption extends React.Component {
             <br></br>
             <Link className="adopt-Pet" onClick={this.deleteCat} to="/">
               <button>Adopt this Cat!</button>
-              {console.log('adopted Cats:' , this.state.adoptedCats)}
+              {console.log('adopted Cats:' , this.state.adoptedCats.name)}
             </Link>
           </div>
         </div>
@@ -256,6 +257,12 @@ export default class Adoption extends React.Component {
         </div>
         <div className="adopted-pets">
         <h3>Adopted Pets:</h3>
+        {console.log('ADOPTED DOGS', this.state.adoptedDogs)}
+        {this.state.adoptedDogs.name}
+        <br></br>
+        {this.state.adoptedCats.name}
+
+        {/*{this.adoptedPets} */}
         
 
 
