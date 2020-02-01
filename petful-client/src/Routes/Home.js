@@ -1,37 +1,33 @@
 import Background from "./Home-Image.jpg";
 import React from "react";
 import "./Home.css";
+import PeopleHelper from "./RouteHelpers/PeopleHelper";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoaded: false,
       error: null,
-      person: ""
+      people: "",
+      queue: []
     };
   }
+
   componentDidMount() {
-    this.getPeople();
+    this.getQueue();
   }
 
-  getPeople = () => {
-    fetch("http://localhost:8080/api/person")
+  getQueue = () => {
+    PeopleHelper.getQueue()
       .then(res => res.json())
-      .then(
-        result => {
-          this.setState({
-            isLoaded: true,
-            person: result
-          });
-        },
-        error => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      );
+      .then(queue => this.setState({ queue, isLoading: false }))
+      .catch(error => {
+        this.setState({ error });
+      });
+  };
+
+  deletePerson = () => {
+    PeopleHelper.deletePerson();
   };
 
   onAdopt = () => {
@@ -39,7 +35,7 @@ class Home extends React.Component {
     history.push("/adoption");
   };
   render() {
-    const { error, isLoaded, person } = this.state;
+    const { error, isLoaded, people } = this.state;
 
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -75,7 +71,7 @@ class Home extends React.Component {
             <h3>Place in line</h3>
             <div className="person">
               <div>
-                <h2>{person.name}</h2>
+                <h2>{people.name}</h2>
               </div>
             </div>
           </div>
