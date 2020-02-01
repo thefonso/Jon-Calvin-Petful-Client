@@ -1,5 +1,6 @@
 import React from "react";
 import "./Adoption.css";
+import { Link } from "react-router-dom";
 import PeopleHelper from "./RouteHelpers/PeopleHelper";
 import DogHelper from "./RouteHelpers/DogHelper";
 import CatHelper from "./RouteHelpers/CatHelper";
@@ -188,7 +189,9 @@ export default class Adoption extends React.Component {
             <p> Story: </p>
             {dog.story}
           </div>
-          <button onClick={this.deleteDog()}>Adopt Dog</button>
+          <Link className="adopt-Pet" onClick={this.deleteDog} to="/">
+            <button>Adopt Dog</button>
+          </Link>
         </div>
 
         <div className="cat">
@@ -207,7 +210,9 @@ export default class Adoption extends React.Component {
             {cat.description} <br />
             <p> Story: </p>
             {cat.story}
-            <button onClick={this.deleteCat()}>Adopt Cat</button>
+            <Link className="adopt-Pet" onClick={this.deleteCat} to="/">
+              <button>Adopt Cat</button>
+            </Link>
           </div>
         </div>
         <div className="queue">
