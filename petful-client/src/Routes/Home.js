@@ -9,12 +9,14 @@ class Home extends React.Component {
     this.state = {
       error: null,
       people: "",
-      queue: []
+      queue: [],
+      isLoading: true
     };
   }
 
   componentDidMount() {
     this.getQueue();
+    console.log("componentMounted");
   }
 
   getQueue = () => {
@@ -30,13 +32,37 @@ class Home extends React.Component {
     PeopleHelper.deletePerson();
   };
 
+  display = q => {
+    let str = "";
+    let currNode = q.first;
+    while (currNode !== null) {
+      str += currNode.value.name + ", ";
+      currNode = currNode.next;
+    }
+    return str;
+  };
+
+  Loading = () => {
+    return this.state.isLoading ? (
+      <h3 className="Loading">Loading...</h3>
+    ) : (
+      this.display(this.state.queue)
+    );
+  };
+
   onAdopt = () => {
     const { history } = this.props;
     history.push("/adoption");
   };
   render() {
-    const { people } = this.state;
-    console.log(this.state.people.name);
+    const people = this.state;
+    console.log(people, "people");
+    // issue where it tries to parse json before it has the object to parse and therefore throws an error. Fix issue by somehow making it wait to parse until componentDidMount.
+
+    // '{"first":{"value":{"id":1,"name":"Bethany","age":"1"},"next":{"value":{"id":2,"name":"Calvin","age":"2"},"next":{"value":{"id":3,"name":"Mandee","age":"3"},"next":{"value":{"id":4,"name":"David","age":"4"},"next":{"value":{"id":5,"name":"Skyler","age":"5"},"next":null}}}}},"last":{"value":{"id":5,"name":"Skyler","age":"5"},"next":null}}';
+    // const foo = JSON.parse(people);
+    // console.log(foo.first.value.name);
+    console.log(this.state);
     return (
       <div>
         <img
@@ -61,10 +87,10 @@ class Home extends React.Component {
         </p>
         {/* The site has a description of the adoption process */}
         <div className="queue">
-          <h3>Next in line</h3>
           <div className="person">
-            <div>
-              <h2>{people.name}</h2>
+            <div className="queue">
+              <h3>Next in line</h3>
+              {this.Loading()}
             </div>
           </div>
         </div>
