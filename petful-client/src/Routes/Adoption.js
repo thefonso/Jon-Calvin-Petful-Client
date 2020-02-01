@@ -13,12 +13,16 @@ export default class Adoption extends React.Component {
       dog: [],
       cat: [],
       queue: [],
+      adoptedDogs: [],
+      adoptedCats: [],
       isLoading: true
     };
   }
   componentDidMount() {
     this.getDog();
     this.getCat();
+    this.addToAdoptedCats();
+    this.addToAdoptedDogs();
     this.getQueue();
   }
 
@@ -34,6 +38,7 @@ export default class Adoption extends React.Component {
   deleteDog = () => {
     DogHelper.deleteDog();
     this.deletePerson();
+    this.addToAdoptedDogs()
   };
 
   getCat = () => {
@@ -48,7 +53,27 @@ export default class Adoption extends React.Component {
   deleteCat = () => {
     CatHelper.deleteCat();
     this.deletePerson();
+    this.addToAdoptedCats();
   };
+
+  addToAdoptedDogs = () => {
+    DogHelper.getDog()
+    .then(res => res.json())
+    .then(adoptedDogs => this.setState({ adoptedDogs }))
+    .catch(error => {
+      this.setState({ error });
+    });
+  }
+
+  addToAdoptedCats = () => {
+    CatHelper.getCat()
+    .then(res => res.json())
+    .then(adoptedCats => this.setState({ adoptedCats }))
+    .catch(error => {
+      this.setState({ error });
+    });
+  }
+
 
   // getDogs = () => {
   //   fetch("http://localhost:8080/api/dog")
@@ -161,6 +186,9 @@ export default class Adoption extends React.Component {
   render() {
     const dog = this.state.dog;
     const cat = this.state.cat;
+   // let adoptedPets = this.state.adoptedDogs.name;
+    //console.log('adopted pets' , adoptedPets)
+    
     // const { error, isLoaded, cat, dog } = this.state;
     // if (error) {
     //   return <div>Error: {error.message}</div>;
@@ -194,6 +222,7 @@ export default class Adoption extends React.Component {
           </div>
           <Link className="adopt-Pet" onClick={this.deleteDog} to="/">
             <button>Adopt this Dog!</button>
+            {console.log('adopted Dogs:' , this.state.adoptedDogs)}
           </Link>
         </div>
 
@@ -217,12 +246,20 @@ export default class Adoption extends React.Component {
             <br></br>
             <Link className="adopt-Pet" onClick={this.deleteCat} to="/">
               <button>Adopt this Cat!</button>
+              {console.log('adopted Cats:' , this.state.adoptedCats)}
             </Link>
           </div>
         </div>
         <div className="queue">
           <h3 className="waitingLine">People waiting in line</h3>
           {this.Loading()}
+        </div>
+        <div className="adopted-pets">
+        <h3>Adopted Pets:</h3>
+        
+
+
+
         </div>
       </div>
     );

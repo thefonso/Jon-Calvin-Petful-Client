@@ -50,6 +50,14 @@ class Home extends React.Component {
     );
   };
 
+  firstInLine = () => {
+    return this.state.isLoading ? (
+      <h3 className="Loading">Loading...</h3>
+    ) : (
+      this.display(this.state.queue.first)
+    );
+  };
+
   onAdopt = () => {
     const { history } = this.props;
     history.push("/adoption");
