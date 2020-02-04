@@ -35,10 +35,12 @@ export default class Adoption extends React.Component {
       });
   };
 
+
   deleteDog = () => {
+    this.addToAdoptedDogs()
     DogHelper.deleteDog();
     this.deletePerson();
-    this.addToAdoptedDogs()
+    
   };
 
   getCat = () => {
@@ -56,14 +58,27 @@ export default class Adoption extends React.Component {
     this.addToAdoptedCats();
   };
 
+
+  
+
   addToAdoptedDogs = () => {
-    DogHelper.getDog()
-    .then(res => res.json())
-    .then(adoptedDogs => this.setState({ adoptedDogs }))
-    .catch(error => {
-      this.setState({ error });
-    });
+    let currentDog = this.state.dog.name;
+    console.log('the current dog to be adopted: ', currentDog)
+
+    this.setState(state => ({
+      adoptedDogs: [...state.adoptedDogs, currentDog]
+  }));
+    // this.state.adoptedDogs.push('hi')
+    // this.state.adoptedDogs.push(currentDog);
+    
+    // DogHelper.getDog()
+    // .then(res => res.json())
+    // .then(adoptedDogs => this.setState({ adoptedDogs }))
+    // .catch(error => {
+    //   this.setState({ error });
+    // });
   }
+ 
 
   addToAdoptedCats = () => {
     CatHelper.getCat()
@@ -75,25 +90,7 @@ export default class Adoption extends React.Component {
   }
 
 
-  // getDogs = () => {
-  //   fetch("http://localhost:8080/api/dog")
-  //     .then(res => res.json())
-  //     .then(
-  //       result => {
-  //         console.log(result);
-  //         this.setState({
-  //           isLoaded: true,
-  //           dog: result
-  //         });
-  //       },
-  //       error => {
-  //         this.setState({
-  //           isLoaded: true,
-  //           error
-  //         });
-  //       }
-  //     );
-  // };
+  
 
   // getCats = () => {
   //   fetch("http://localhost:8080/api/cat")
@@ -186,6 +183,9 @@ export default class Adoption extends React.Component {
   render() {
     const dog = this.state.dog;
     const cat = this.state.cat;
+    const adoptedDog = this.state.adoptedDogs;
+    const adoptedCat = this.state.adoptedCats;
+    
    
    // let adoptedPets = this.state.adoptedDogs.name;
     //console.log('adopted pets' , adoptedPets)
@@ -196,7 +196,7 @@ export default class Adoption extends React.Component {
     // } else if (!isLoaded) {
     //   return <div>Loading...</div>;
     // } else {
-  
+      {console.log('adoptedDogs array: ', this.state.adoptedDogs)}
     return (
       <div className="Adoption">
         <h1>Adoption Process</h1>
@@ -223,7 +223,7 @@ export default class Adoption extends React.Component {
           </div>
           <Link className="adopt-Pet" onClick={this.deleteDog} to="/">
             <button>Adopt this Dog!</button>
-            {console.log('adopted Dogs:' , this.state.adoptedDogs.name)}
+         
           </Link>
         </div>
 
@@ -247,7 +247,7 @@ export default class Adoption extends React.Component {
             <br></br>
             <Link className="adopt-Pet" onClick={this.deleteCat} to="/">
               <button>Adopt this Cat!</button>
-              {console.log('adopted Cats:' , this.state.adoptedCats.name)}
+ 
             </Link>
           </div>
         </div>
@@ -257,12 +257,10 @@ export default class Adoption extends React.Component {
         </div>
         <div className="adopted-pets">
         <h3>Adopted Pets:</h3>
-        {console.log('ADOPTED DOGS', this.state.adoptedDogs)}
-        {this.state.adoptedDogs.name}
-        <br></br>
-        {this.state.adoptedCats.name}
 
-        {/*{this.adoptedPets} */}
+        {this.state.adoptedDogs.map(dog => <li>{dog}</li>)}
+        <br></br>
+        {adoptedCat.name}
         
 
 
