@@ -38,7 +38,7 @@ export default class Adoption extends React.Component {
   deleteDog = () => {
     DogHelper.deleteDog();
     this.deletePerson();
-    this.addToAdoptedDogs()
+    this.addToAdoptedDogs();
   };
 
   getCat = () => {
@@ -58,22 +58,21 @@ export default class Adoption extends React.Component {
 
   addToAdoptedDogs = () => {
     DogHelper.getDog()
-    .then(res => res.json())
-    .then(adoptedDogs => this.setState({ adoptedDogs }))
-    .catch(error => {
-      this.setState({ error });
-    });
-  }
+      .then(res => res.json())
+      .then(adoptedDogs => this.setState({ adoptedDogs }))
+      .catch(error => {
+        this.setState({ error });
+      });
+  };
 
   addToAdoptedCats = () => {
     CatHelper.getCat()
-    .then(res => res.json())
-    .then(adoptedCats => this.setState({ adoptedCats }))
-    .catch(error => {
-      this.setState({ error });
-    });
-  }
-
+      .then(res => res.json())
+      .then(adoptedCats => this.setState({ adoptedCats }))
+      .catch(error => {
+        this.setState({ error });
+      });
+  };
 
   // getDogs = () => {
   //   fetch("http://localhost:8080/api/dog")
@@ -186,17 +185,19 @@ export default class Adoption extends React.Component {
   render() {
     const dog = this.state.dog;
     const cat = this.state.cat;
-   
-   // let adoptedPets = this.state.adoptedDogs.name;
+    let adoptedDogsList = this.state.adoptedDogs.name;
+    console.log(adoptedDogsList);
+
+    // let adoptedPets = this.state.adoptedDogs.name;
     //console.log('adopted pets' , adoptedPets)
-    
+
     // const { error, isLoaded, cat, dog } = this.state;
     // if (error) {
     //   return <div>Error: {error.message}</div>;
     // } else if (!isLoaded) {
     //   return <div>Loading...</div>;
     // } else {
-  
+
     return (
       <div className="Adoption">
         <h1>Adoption Process</h1>
@@ -223,7 +224,7 @@ export default class Adoption extends React.Component {
           </div>
           <Link className="adopt-Pet" onClick={this.deleteDog} to="/">
             <button>Adopt this Dog!</button>
-            {console.log('adopted Dogs:' , this.state.adoptedDogs.name)}
+            {console.log("adopted Dogs:", this.state.adoptedDogs.name)}
           </Link>
         </div>
 
@@ -247,7 +248,7 @@ export default class Adoption extends React.Component {
             <br></br>
             <Link className="adopt-Pet" onClick={this.deleteCat} to="/">
               <button>Adopt this Cat!</button>
-              {console.log('adopted Cats:' , this.state.adoptedCats.name)}
+              {console.log("adopted Cats:", this.state.adoptedCats.name)}
             </Link>
           </div>
         </div>
@@ -256,17 +257,12 @@ export default class Adoption extends React.Component {
           {this.Loading()}
         </div>
         <div className="adopted-pets">
-        <h3>Adopted Pets:</h3>
-        {console.log('ADOPTED DOGS', this.state.adoptedDogs)}
-        {this.state.adoptedDogs.name}
-        <br></br>
-        {this.state.adoptedCats.name}
-
-        {/*{this.adoptedPets} */}
-        
-
-
-
+          <h3>Adopted Pets:</h3>
+          {console.log("ADOPTED DOGS", this.state.adoptedDogs)}
+          {this.state.adoptedDogs.name}
+          <br></br>
+          {this.state.adoptedCats.name}
+          {/*{this.adoptedPets} */}
         </div>
       </div>
     );
