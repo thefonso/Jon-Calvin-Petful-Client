@@ -126,38 +126,40 @@ export default class Adoption extends React.Component {
           {/* when a pet is adopted, remove/delete that index and rerender */}
           <div>
             <img src={dog.imageURL} alt={dog.imageDescription}></img>
-            <p> Name: </p>
-            {dog.name} <br />
-            <p> Breed: </p>
-            {dog.breed} <br />
-            <p> Age: </p>
-            {dog.age} <br />
-            <p> Sex: </p>
-            {dog.sex} <br />
-            <p> Description: </p>
-            {dog.description} <br />
-            <p> Story: </p>
-            {dog.story}
+            <p> <strong>Name: </strong>{dog.name} </p>
+             <br />
+            <p> <strong>Breed: </strong>{dog.breed} </p>
+             <br />
+            <p> <strong>Age: </strong>{dog.age} </p>
+             <br />
+            <p> <strong>Sex: </strong>{dog.sex} </p>
+             <br />
+            <p> <strong>Description: </strong> {dog.description} </p>
+            <br />
+            <p> <strong>Story: </strong>{dog.story} </p>
+            
           </div>
             <button onClick={this.deleteDog}>Adopt this Dog!</button>
         </div>
+        
 
         <div className="cat">
+        <br></br><br></br>
           <h2>Cats</h2>
           <div>
             <img src={cat.imageURL} alt={cat.imageDescription}></img>
-            <p> Name: </p>
-            {cat.name} <br />
-            <p> Breed: </p>
-            {cat.breed} <br />
-            <p> Age: </p>
-            {cat.age} <br />
-            <p> Sex: </p>
-            {cat.sex} <br />
-            <p> Description: </p>
-            {cat.description} <br />
-            <p> Story: </p>
-            {cat.story}
+            <p> <strong>Name: </strong>{cat.name} </p>
+             <br />
+            <p> <strong>Breed: </strong>{cat.breed} </p>
+             <br />
+            <p> <strong>Age: </strong> {cat.age} </p>
+            <br />
+            <p> <strong>Sex: </strong> {cat.sex} </p>
+            <br />
+            <p> <strong>Description: </strong> {cat.description} </p>
+            <br />
+            <p> <strong>Story: </strong>{cat.story} </p>
+            
             <br></br>
             <br></br>
               <button onClick={this.deleteCat}>Adopt this Cat!</button>

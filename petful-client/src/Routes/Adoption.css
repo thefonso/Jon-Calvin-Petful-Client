@@ -1,5 +1,22 @@
 * {
+
   color: white;
+}
+
+.dog, .cat {
+ 
+display: block;
+margin: auto;
+
+width: 420px;
+
+}
+img {
+  max-width: 420px;
+}
+
+p {
+
 }
 
 h1 {
