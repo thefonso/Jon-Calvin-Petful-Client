@@ -37,13 +37,23 @@ export default class Adoption extends React.Component {
       .catch(error => {
         this.setState({ error });
       });
-      console.log('dog array', this.state.dog)
+  };
+
+  //new getCat()
+  getCat = () => {
+    CatHelper.getCat()
+      .then(res => res.json())
+      .then(cat => {
+        console.log('cat', cat)
+        this.setState({...this.state, cat, isLoading: false })
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
   };
 
 
   deleteDog = () => {
-   
-    //this.addToAdoptedDogs()
     DogHelper.deleteDog().then(res => res.json()).then(dogsdelete => {this.setState({
       adoptedDogs: [...this.state.adoptedDogs, dogsdelete]
     });console.log('delete dog', dogsdelete) })
@@ -52,41 +62,16 @@ export default class Adoption extends React.Component {
     this.getDog();
   };
 
-  getCat = () => {
-    CatHelper.getCat()
-      .then(res => res.json())
-      .then(cat => this.setState({ cat }))
-      .catch(error => {
-        this.setState({ error });
-      });
-  };
 
   deleteCat = () => {
-    CatHelper.deleteCat();
+    CatHelper.deleteCat().then(res => res.json()).then(catsdelete =>
+      {this.setState({
+        adoptedCats: [...this.state.adoptedCats, catsdelete]
+      });console.log('delete cat', catsdelete)})
+      .catch(e => console.log('error', e))
     this.deletePerson();
-    this.addToAdoptedCats();
+    this.getCat();
   };
-
-  // addToAdoptedDogs = () => {
-  //   DogHelper.getDog()
-  //     .then(res => res.json())
-  //     .then(adoptedDogs => this.setState({ adoptedDogs }))
-  //     .catch(error => {
-  //       this.setState({ error });
-  //     });
-  // }
-
-
-
-
-  addToAdoptedCats = () => {
-    CatHelper.getCat()
-      .then(res => res.json())
-      .then(adoptedCats => {this.setState({ adoptedCats: [...this.state.adoptedCats, adoptedCats] });})
-      .catch(error => {
-        this.setState({ error });
-      });
-  }
 
 
 
@@ -109,6 +94,7 @@ export default class Adoption extends React.Component {
     let currNode = q.first;
     while (currNode !== null) {
       str += currNode.value.name + ", ";
+      console.log('current node' , currNode)
       currNode = currNode.next;
     }
     return str;
@@ -125,8 +111,7 @@ export default class Adoption extends React.Component {
   render() {
     const dog = this.state.dog;
     const cat = this.state.cat;
-    const adoptedDog = this.state.adoptedDogs;
-    const adoptedCat = this.state.adoptedCats;
+  
 
 
     { console.log('adoptedDogs array: ', this.state.adoptedDogs) }
