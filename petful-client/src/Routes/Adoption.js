@@ -10,8 +10,8 @@ export default class Adoption extends React.Component {
     super(props);
     this.state = {
       error: null,
-      dog: [],
-      cat: [],
+      dog: {},
+      cat: {},
       queue: [],
       adoptedDogs: [],
       adoptedCats: [],
@@ -19,28 +19,37 @@ export default class Adoption extends React.Component {
     };
   }
   componentDidMount() {
+    this.getQueue();
     this.getDog();
     this.getCat();
-    this.addToAdoptedCats();
-    this.addToAdoptedDogs();
-    this.getQueue();
   }
+  
 
+//new getDog()
   getDog = () => {
     DogHelper.getDog()
       .then(res => res.json())
-      .then(dog => this.setState({ dog }))
+      .then(dog => {
+        console.log('dog' ,dog)
+        this.setState({...this.state, dog, isLoading: false })
+      })
+      
       .catch(error => {
         this.setState({ error });
       });
+      console.log('dog array', this.state.dog)
   };
 
 
   deleteDog = () => {
-    this.addToAdoptedDogs()
-    DogHelper.deleteDog();
+   
+    //this.addToAdoptedDogs()
+    DogHelper.deleteDog().then(res => res.json()).then(dogsdelete => {this.setState({
+      adoptedDogs: [...this.state.adoptedDogs, dogsdelete]
+    });console.log('delete dog', dogsdelete) })
+    .catch(e => console.log('error', e))
     this.deletePerson();
-    
+    this.getDog();
   };
 
   getCat = () => {
@@ -58,96 +67,28 @@ export default class Adoption extends React.Component {
     this.addToAdoptedCats();
   };
 
+  // addToAdoptedDogs = () => {
+  //   DogHelper.getDog()
+  //     .then(res => res.json())
+  //     .then(adoptedDogs => this.setState({ adoptedDogs }))
+  //     .catch(error => {
+  //       this.setState({ error });
+  //     });
+  // }
 
-  
 
-  addToAdoptedDogs = () => {
-    let currentDog = this.state.dog.name;
-    console.log('the current dog to be adopted: ', currentDog)
 
-    this.setState(state => ({
-      adoptedDogs: [...state.adoptedDogs, currentDog]
-  }));
-    // this.state.adoptedDogs.push('hi')
-    // this.state.adoptedDogs.push(currentDog);
-    
-    // DogHelper.getDog()
-    // .then(res => res.json())
-    // .then(adoptedDogs => this.setState({ adoptedDogs }))
-    // .catch(error => {
-    //   this.setState({ error });
-    // });
-  }
- 
 
   addToAdoptedCats = () => {
     CatHelper.getCat()
-    .then(res => res.json())
-    .then(adoptedCats => this.setState({ adoptedCats }))
-    .catch(error => {
-      this.setState({ error });
-    });
+      .then(res => res.json())
+      .then(adoptedCats => {this.setState({ adoptedCats: [...this.state.adoptedCats, adoptedCats] });})
+      .catch(error => {
+        this.setState({ error });
+      });
   }
 
 
-  
-
-  // getCats = () => {
-  //   fetch("http://localhost:8080/api/cat")
-  //     .then(res => res.json())
-  //     .then(
-  //       result => {
-  //         this.setState({
-  //           isLoaded: true,
-  //           cat: result
-  //         });
-  //       },
-  //       error => {
-  //         this.setState({
-  //           isLoaded: true,
-  //           error
-  //         });
-  //       }
-  //     );
-  // };
-
-  // deleteCats = () => {
-  //   fetch("http://localhost:8080/api/cat/remove", { method: "DELETE" })
-  //     .then(res => res.json())
-  //     .then(
-  //       result => {
-  //         this.setState({
-  //           isLoaded: true,
-  //           cat: result
-  //         });
-  //       },
-  //       error => {
-  //         this.setState({
-  //           isLoaded: true,
-  //           error
-  //         });
-  //       }
-  //     );
-  // };
-
-  // deleteDogs = () => {
-  //   fetch("http://localhost:8080/api/dog/remove", { method: "DELETE" })
-  //     .then(res => res.json())
-  //     .then(
-  //       result => {
-  //         this.setState({
-  //           isLoaded: true,
-  //           dog: result
-  //         });
-  //       },
-  //       error => {
-  //         this.setState({
-  //           isLoaded: true,
-  //           error
-  //         });
-  //       }
-  //     );
-  // };
 
   getQueue = () => {
     PeopleHelper.getQueue()
@@ -163,6 +104,7 @@ export default class Adoption extends React.Component {
   };
 
   display = q => {
+    console.log('q', q)
     let str = "";
     let currNode = q.first;
     while (currNode !== null) {
@@ -176,8 +118,8 @@ export default class Adoption extends React.Component {
     return this.state.isLoading ? (
       <h3 className="Loading">Loading...</h3>
     ) : (
-      this.display(this.state.queue)
-    );
+        this.display(this.state.queue)
+      );
   };
 
   render() {
@@ -185,18 +127,9 @@ export default class Adoption extends React.Component {
     const cat = this.state.cat;
     const adoptedDog = this.state.adoptedDogs;
     const adoptedCat = this.state.adoptedCats;
-    
-   
-   // let adoptedPets = this.state.adoptedDogs.name;
-    //console.log('adopted pets' , adoptedPets)
-    
-    // const { error, isLoaded, cat, dog } = this.state;
-    // if (error) {
-    //   return <div>Error: {error.message}</div>;
-    // } else if (!isLoaded) {
-    //   return <div>Loading...</div>;
-    // } else {
-      {console.log('adoptedDogs array: ', this.state.adoptedDogs)}
+
+
+    { console.log('adoptedDogs array: ', this.state.adoptedDogs) }
     return (
       <div className="Adoption">
         <h1>Adoption Process</h1>
@@ -221,10 +154,7 @@ export default class Adoption extends React.Component {
             <p> Story: </p>
             {dog.story}
           </div>
-          <Link className="adopt-Pet" onClick={this.deleteDog} to="/">
-            <button>Adopt this Dog!</button>
-         
-          </Link>
+            <button onClick={this.deleteDog}>Adopt this Dog!</button>
         </div>
 
         <div className="cat">
@@ -245,10 +175,7 @@ export default class Adoption extends React.Component {
             {cat.story}
             <br></br>
             <br></br>
-            <Link className="adopt-Pet" onClick={this.deleteCat} to="/">
-              <button>Adopt this Cat!</button>
- 
-            </Link>
+              <button onClick={this.deleteCat}>Adopt this Cat!</button>
           </div>
         </div>
         <div className="queue">
@@ -256,15 +183,11 @@ export default class Adoption extends React.Component {
           {this.Loading()}
         </div>
         <div className="adopted-pets">
-        <h3>Adopted Pets:</h3>
+          <h3>Adopted Pets:</h3>
 
-        {this.state.adoptedDogs.map(dog => <li>{dog}</li>)}
-        <br></br>
-        {adoptedCat.name}
-        
-
-
-
+          {this.state.adoptedDogs.map(dog => <li>{dog.name}</li>)}
+          <br></br>
+          {this.state.adoptedCats.map(cat => <li>{cat.name}</li>)}
         </div>
       </div>
     );
