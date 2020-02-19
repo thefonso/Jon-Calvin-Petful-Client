@@ -1,4 +1,20 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Petful App
+
+Created by Jon Jackson and Calvin Rosehart
+
+[Live App Link](https://jon-calvin-petful-client.now.sh)
+
+[client side repo link](https://github.com/thinkful-ei-iguana/Jon-Calvin-Petful-Client)
+
+[API Repo Link](https://github.com/thinkful-ei-iguana/Jon-Calvin-Petful-Fixing-Issues)
+
+## Technology Used
+
+React, HTML, CSS, JavaScript, JSX, Linked Listed, Queues
+
+## Summary
+
+This is a pet adoption app that utilizes Queues and Linked lists. The adoption process is on a first come first serve basis. Once a client is able to adopt, they are presented with 2 animals, a cat and a dog. The client may adopt the cat, the dog or both!
 
 ## Available Scripts
 
