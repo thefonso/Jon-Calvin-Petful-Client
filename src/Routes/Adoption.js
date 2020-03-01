@@ -12,28 +12,31 @@ export default class Adoption extends React.Component {
       error: null,
       dog: {},
       cat: {},
-      queue: [],
+      queue: {},
       adoptedDogs: [],
       adoptedCats: [],
+      adoptPerson: [],
       isLoading: true
     };
   }
+
   componentDidMount() {
     this.getQueue();
     this.getDog();
     this.getCat();
+    console.log("componentMounted")
   }
-  
 
-//new getDog()
+
+  //new getDog()
   getDog = () => {
     DogHelper.getDog()
       .then(res => res.json())
       .then(dog => {
-        console.log('dog' ,dog)
-        this.setState({...this.state, dog, isLoading: false })
+        console.log('dog', dog)
+        this.setState({ ...this.state, dog, isLoading: false })
       })
-      
+
       .catch(error => {
         this.setState({ error });
       });
@@ -45,7 +48,7 @@ export default class Adoption extends React.Component {
       .then(res => res.json())
       .then(cat => {
         console.log('cat', cat)
-        this.setState({...this.state, cat, isLoading: false })
+        this.setState({ ...this.state, cat, isLoading: false })
       })
       .catch(error => {
         this.setState({ error });
@@ -54,20 +57,23 @@ export default class Adoption extends React.Component {
 
 
   deleteDog = () => {
-    DogHelper.deleteDog().then(res => res.json()).then(dogsdelete => {this.setState({
-      adoptedDogs: [...this.state.adoptedDogs, dogsdelete]
-    });console.log('delete dog', dogsdelete) })
-    .catch(e => console.log('error', e))
+    DogHelper.deleteDog().then(res => res.json()).then(dogsdelete => {
+      this.setState({
+        adoptedDogs: [...this.state.adoptedDogs, dogsdelete]
+      }); console.log('delete dog', dogsdelete)
+    })
+      .catch(e => console.log('error', e))
     this.deletePerson();
     this.getDog();
   };
 
 
   deleteCat = () => {
-    CatHelper.deleteCat().then(res => res.json()).then(catsdelete =>
-      {this.setState({
+    CatHelper.deleteCat().then(res => res.json()).then(catsdelete => {
+      this.setState({
         adoptedCats: [...this.state.adoptedCats, catsdelete]
-      });console.log('delete cat', catsdelete)})
+      }); console.log('delete cat', catsdelete)
+    })
       .catch(e => console.log('error', e))
     this.deletePerson();
     this.getCat();
@@ -78,7 +84,10 @@ export default class Adoption extends React.Component {
   getQueue = () => {
     PeopleHelper.getQueue()
       .then(res => res.json())
-      .then(queue => this.setState({ queue, isLoading: false }))
+      .then(queue => {
+        console.log('queue of people', queue)
+        this.setState({ ...this.state, queue, isLoading: false })
+      })
       .catch(error => {
         this.setState({ error });
       });
@@ -94,7 +103,7 @@ export default class Adoption extends React.Component {
     let currNode = q.first;
     while (currNode !== null) {
       str += currNode.value.name + ", ";
-      console.log('current node' , currNode)
+      console.log('current node', currNode)
       currNode = currNode.next;
     }
     return str;
@@ -104,6 +113,7 @@ export default class Adoption extends React.Component {
     return this.state.isLoading ? (
       <h3 className="Loading">Loading...</h3>
     ) : (
+        console.log('this.state.queue', this.state.queue),
         this.display(this.state.queue)
       );
   };
@@ -111,10 +121,18 @@ export default class Adoption extends React.Component {
   render() {
     const dog = this.state.dog;
     const cat = this.state.cat;
-  
+    const person = this.state.queue
+
+    console.log(this.state.dog)
+    console.log(this.state.cat)
+    console.log(this.state.queue)
+    console.log(this.state.isLoading)
+    console.log(this.state.adoptPerson)
 
 
-    { console.log('adoptedDogs array: ', this.state.adoptedDogs) }
+    // { console.log('adoptedCats array: ', this.state.adoptedCats) }
+
+    // { console.log('adoptedDogs array: ', this.state.adoptedDogs) }
     return (
       <div className="Adoption">
         <h1>Adoption Process</h1>
@@ -127,31 +145,31 @@ export default class Adoption extends React.Component {
           <div>
             <img src={dog.imageURL} alt={dog.imageDescription}></img>
             <p> <strong>Name: </strong>{dog.name} </p>
-             <br />
+            <br />
             <p> <strong>Breed: </strong>{dog.breed} </p>
-             <br />
+            <br />
             <p> <strong>Age: </strong>{dog.age} </p>
-             <br />
+            <br />
             <p> <strong>Sex: </strong>{dog.sex} </p>
-             <br />
+            <br />
             <p> <strong>Description: </strong> {dog.description} </p>
             <br />
             <p> <strong>Story: </strong>{dog.story} </p>
-            
+
           </div>
-            <button onClick={this.deleteDog}>Adopt this Dog!</button>
+          <button onClick={this.deleteDog}>Adopt this Dog!</button>
         </div>
-        
+
 
         <div className="cat">
-        <br></br><br></br>
+          <br></br><br></br>
           <h2>Cats</h2>
           <div>
             <img src={cat.imageURL} alt={cat.imageDescription}></img>
             <p> <strong>Name: </strong>{cat.name} </p>
-             <br />
+            <br />
             <p> <strong>Breed: </strong>{cat.breed} </p>
-             <br />
+            <br />
             <p> <strong>Age: </strong> {cat.age} </p>
             <br />
             <p> <strong>Sex: </strong> {cat.sex} </p>
@@ -159,15 +177,15 @@ export default class Adoption extends React.Component {
             <p> <strong>Description: </strong> {cat.description} </p>
             <br />
             <p> <strong>Story: </strong>{cat.story} </p>
-            
+
             <br></br>
             <br></br>
-              <button onClick={this.deleteCat}>Adopt this Cat!</button>
+            <button onClick={this.deleteCat}>Adopt this Cat!</button>
           </div>
         </div>
         <div className="queue">
           <h3 className="waitingLine">People waiting in line</h3>
-          {this.Loading()}
+          {this.state.adoptPerson.map(person => <li>{person.name}</li>)}
         </div>
         <div className="adopted-pets">
           <h3>Adopted Pets:</h3>
@@ -180,3 +198,6 @@ export default class Adoption extends React.Component {
     );
   }
 }
+
+
+
