@@ -1,13 +1,26 @@
 {
     "version": 2,
-    "alias": "jon-calvin-petful-app",
     "name": "petful-app",
+    "alias": "jon-calvin-petful-app",
     "routes": [
         {
-            "handle": "filesystem"
+            "src": "^/static/(.*)",
+            "dest": "/static/$1"
         },
         {
-            "src": "/.*",
+            "src": "^/favicon.ico$",
+            "dest": "/favicon.ico"
+        },
+        {
+            "src": "^/manifest.json$",
+            "dest": "/manifest.json"
+        },
+        {
+            "src": "^/site.webmanifest.json$",
+            "dest": "/site.webmanifest.json"
+        },
+        {
+            "src": ".*",
             "dest": "/index.html"
         }
     ]
