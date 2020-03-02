@@ -1,9 +1,19 @@
-Petful:
-An application made by Jonathan Jackson and Calvin Rosehart
+## Petful
+An application made by Jonathan Jackson and Calvin Rosehart.
 
+## Project Summary
+Petful operates on a first-in, first-out basis. The project begins with a queue of dogs and a queue of cats (on the API end), users adopt the first available dog or cat as selected. When it is a user's turn to adopt a pet, click the adopt button to dequeue that pet and complete the adoption process!
 
-The project
-Petful operates on a first-in, first-out basis. The project begins with a queue of dogs and a queue of cats (on the API end), users adopt the first available dog or cat as selected. When it is a users turn to adopt a pet, click the adopt button to dequeue that pet and complete the adoption process!
+## Technologies Used
+Client: React, HTML/CSS   
+Server: Node.js, Express  
+  
+## Links
+Link to Live App: https://petful-app-puptpybuk.now.sh/
+
+Link to Client Repo: https://github.com/thinkful-ei-iguana/Jon-Calvin-Petful-Client
+
+Link to Server Repo: https://github.com/thinkful-ei-iguana/Jon-Calvin-Petful-Fixing-Issues 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
