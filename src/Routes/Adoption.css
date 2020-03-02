@@ -19,10 +19,13 @@ p {
 
 }
 
-h1 {
+h1, .Adoption {
   text-align: center;
 }
 
+.Adoption {
+  margin-bottom: 100px;
+}
 .home-button {
   margin-left: auto;
   margin-right: auto;

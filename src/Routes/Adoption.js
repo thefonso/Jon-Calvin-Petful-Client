@@ -18,7 +18,6 @@ export default class Adoption extends React.Component {
       isLoading: true
     };
   }
-
   componentDidMount() {
     this.getCat();
     this.getDog();
@@ -35,7 +34,6 @@ export default class Adoption extends React.Component {
         console.log('dog', dog)
         this.setState({ dog, isLoading: false })
       })
-
       .catch(error => {
         this.setState({ error });
       });
