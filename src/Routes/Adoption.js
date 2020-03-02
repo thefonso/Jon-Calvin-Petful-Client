@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import PeopleHelper from "./RouteHelpers/PeopleHelper";
 import DogHelper from "./RouteHelpers/DogHelper";
 import CatHelper from "./RouteHelpers/CatHelper";
+import _ from "lodash"
 
 export default class Adoption extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ export default class Adoption extends React.Component {
       .then(res => res.json())
       .then(dog => {
         console.log('dog', dog)
-        this.setState({ ...this.state, dog, isLoading: false })
+        this.setState({ dog, isLoading: false })
       })
 
       .catch(error => {
@@ -47,7 +48,19 @@ export default class Adoption extends React.Component {
       .then(res => res.json())
       .then(cat => {
         console.log('cat', cat)
-        this.setState({ ...this.state, cat, isLoading: false })
+        this.setState({ cat, isLoading: false })
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
+  };
+
+  getAdoptedCats = () => {
+    CatHelper.getAdoptedCats()
+      .then(res => res.json())
+      .then(adoptedCats => {
+        console.log('cat', adoptedCats)
+        this.setState({ adoptedCats, isLoading: false })
       })
       .catch(error => {
         this.setState({ error });
@@ -59,11 +72,9 @@ export default class Adoption extends React.Component {
     PeopleHelper.getQueue()
       .then(res => res.json())
       .then(queue => {
-        console.log('queue', queue)
-        console.log('queue.first', queue.first)
-        console.log('queue.first.value', queue.first.value)
-        console.log('queue.first.value.name', queue.first.value.name)
-        this.setState({ ...this.state, queue, isLoading: false })
+        this.setState({ queue, isLoading: false }, () => {
+          console.log(this.state.queue, "this.state.queue")
+        })
       })
       .catch(error => {
         this.setState({ error });
@@ -78,8 +89,10 @@ export default class Adoption extends React.Component {
       }); console.log('delete dog', dogsdelete)
     })
       .catch(e => console.log('error', e))
-    this.deletePerson();
-    this.getDog();
+    this.deletePerson().then(() => {
+      this.getDog();
+      this.getQueue();
+    });
   };
 
 
@@ -90,23 +103,23 @@ export default class Adoption extends React.Component {
       }); console.log('delete cat', catsdelete)
     })
       .catch(e => console.log('error', e))
-    this.deletePerson();
-    this.getCat();
+    this.deletePerson().then(() => {
+      this.getCat();
+      this.getQueue();
+    });
   };
-
-
-
 
   deletePerson = () => {
-    PeopleHelper.deletePerson();
+    return PeopleHelper.deletePerson()
   };
+
 
   display = queue => {
     console.log('this.state', this.state)
     let str = "";
     let currNode = queue.first;
-    while (currNode !== null) {
-      str += currNode.first.value.name + ", ";
+    while (currNode !== undefined && currNode !== null) {
+      str += currNode.value.name + ", ";
       console.log('current node', currNode)
       currNode = currNode.next;
     }
@@ -114,6 +127,7 @@ export default class Adoption extends React.Component {
   };
 
   Loading = () => {
+    console.log(this.state.queue)
     return this.state.isLoading ? (
       <p className="Loading">Loading...</p>
     ) : (
@@ -181,13 +195,10 @@ export default class Adoption extends React.Component {
         </div>
         <div className="queue">
           <h3 className="waitingLine">People waiting in line: </h3>
-          <h3>
-            {this.Loading()}
-          </h3>
+          {this.Loading()}
         </div>
         <div className="adopted-pets">
           <h3>Adopted Pets:</h3>
-
           {this.state.adoptedDogs.map(dog => <li>{dog.name}</li>)}
           <br></br>
           {this.state.adoptedCats.map(cat => <li>{cat.name}</li>)}

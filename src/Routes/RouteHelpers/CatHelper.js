@@ -1,8 +1,12 @@
 import config from "../../config";
 const CatHelper = {
   getCat() {
-    return fetch(`${config.REACT_APP_API_BASE}/cat`,)
+    return fetch(`${config.REACT_APP_API_BASE}/cat`)
 
+  },
+
+  getAdoptedCats() {
+    return fetch(`${config.REACT_APP_API_BASE}/adoptedCats`)
   },
 
   deleteCat() {
