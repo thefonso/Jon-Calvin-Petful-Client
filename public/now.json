@@ -1,0 +1,14 @@
+{
+    "version": 2,
+    "alias": "jon-calvin-petful-app",
+    "name": "petful-app",
+    "routes": [
+        {
+            "handle": "filesystem"
+        },
+        {
+            "src": "/.*",
+            "dest": "/index.html"
+        }
+    ]
+}

@@ -16,7 +16,6 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.getQueue();
-    console.log("componentMounted");
   }
 
   getQueue = () => {
@@ -33,12 +32,10 @@ class Home extends React.Component {
   };
 
   display = q => {
-    console.log('q', q)
     let str = "";
     let currNode = q.first;
     while (currNode !== null) {
       str += currNode.value.name + ", ";
-      console.log('current node', currNode)
       currNode = currNode.next;
     }
     return str;
@@ -65,14 +62,6 @@ class Home extends React.Component {
     history.push("/adoption");
   };
   render() {
-    const people = this.state;
-    console.log("people", people);
-    // issue where it tries to parse json before it has the object to parse and therefore throws an error. Fix issue by somehow making it wait to parse until componentDidMount.
-
-    // '{"first":{"value":{"id":1,"name":"Bethany","age":"1"},"next":{"value":{"id":2,"name":"Calvin","age":"2"},"next":{"value":{"id":3,"name":"Mandee","age":"3"},"next":{"value":{"id":4,"name":"David","age":"4"},"next":{"value":{"id":5,"name":"Skyler","age":"5"},"next":null}}}}},"last":{"value":{"id":5,"name":"Skyler","age":"5"},"next":null}}';
-    // const foo = JSON.parse(people);
-    // console.log(foo.first.value.name);
-    console.log('here is this.state', this.state)
     return (
       <div>
         <img
