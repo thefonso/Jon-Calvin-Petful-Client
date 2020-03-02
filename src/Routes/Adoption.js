@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import PeopleHelper from "./RouteHelpers/PeopleHelper";
 import DogHelper from "./RouteHelpers/DogHelper";
 import CatHelper from "./RouteHelpers/CatHelper";
-import _ from "lodash"
 
 export default class Adoption extends React.Component {
   constructor(props) {
