@@ -1,3 +1,10 @@
+Petful:
+An application made by Jonathan Jackson and Calvin Rosehart
+
+
+The project
+Petful operates on a first-in, first-out basis. The project begins with a queue of dogs and a queue of cats (on the API end), users adopt the first available dog or cat as selected. When it is a users turn to adopt a pet, click the adopt button to dequeue that pet and complete the adoption process!
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
